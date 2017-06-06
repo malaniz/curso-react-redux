@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "autoprefixer-core": "^6.0.1",
+    "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.0",
     "postcss-color-rebeccapurple": "^3.0.0",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "style-loader": "^0.18.1"
   }
 }
