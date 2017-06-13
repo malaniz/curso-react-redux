@@ -12,10 +12,10 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
-        presets: [ 'es2015', 'react']
+        presets: ['react','es2015'],
       }
-    }, { 
-      test: /\.css$/, 
+    }, {
+      test: /\.css$/,
       loader: [
         'style-loader?sourceMap',
         'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
