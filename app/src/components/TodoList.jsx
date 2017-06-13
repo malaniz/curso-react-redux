@@ -14,9 +14,11 @@ class TodoList extends React.Component {
   }
 
   add() {
-    console.log("estoy en add");
     this.props.addText(this.state.text);
     console.log(this.props);
+    this.setState({
+      text: ""
+    });
   }
 
   onChange(e) {
@@ -31,8 +33,9 @@ class TodoList extends React.Component {
         <button onClick={this.add}> Agregar </button>
         <br />
         <ul>
-          <li>Hola
-          </li>
+          { this.props.todos.map(
+            (x, idx) => <li key={idx}> {x.text} </li>
+          )}
         </ul>
       </div>
     )
@@ -41,11 +44,8 @@ class TodoList extends React.Component {
 
 
 export default connect(
-  (state) => {
-    console.log(state);
-    return {
-      todos: state
-    }
+  (state) => { 
+    return { todos: state }
   },
   { 
     addText: (text) => addTodo(text)
