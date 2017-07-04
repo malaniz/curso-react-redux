@@ -1,18 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { createStore } from 'redux'
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  compose
+} from 'redux'
 import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
-import { todoReducer } from './redux/todo' // Or wherever you keep your reducers
+import { phonesReducer } from './redux/phones'
+import App from './components/App.jsx'
 
-import TodoList from './components/TodoList.jsx'
+// Exported from redux-devtools
 
-const store = createStore( todoReducer );
+// unify reducers
+const rootReducer = combineReducers({
+  phones: phonesReducer
+});
+
+
+// create store with thunk middleware
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk)),
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <TodoList />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
