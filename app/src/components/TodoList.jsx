@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addTodo } from '../redux/todo';
+import { addTodo, toggleTodo } from '../redux/todo';
 
 
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       text: ""
     }
     this.onChange = this.onChange.bind(this);
@@ -14,7 +14,7 @@ class TodoList extends React.Component {
   }
 
   add() {
-    this.props.addText(this.state.text);
+    this.props.agregar(this.state.text);
     console.log(this.props);
     this.setState({
       text: ""
@@ -27,14 +27,30 @@ class TodoList extends React.Component {
     });
   }
   render () {
+    const { todos } = this.props;
     return (
       <div>
         <input type="text" value={this.state.text} onChange={this.onChange} />
         <button onClick={this.add}> Agregar </button>
         <br />
         <ul>
-          { this.props.todos.map(
-            (x, idx) => <li key={idx}> {x.text} </li>
+          { todos.map(
+            (x, idx) => {
+              if (x.completed) {
+                return <li key={idx}>
+                  <i>{x.text} </i>
+                </li>
+              } else {
+                return <li key={idx}>
+                  {x.text}
+                   <button onClick={() => {
+                      console.log("completed " + idx);
+                      this.props.listo(idx);
+                    }}> Completed? </button>
+                </li>
+
+              }
+            }
           )}
         </ul>
       </div>
@@ -42,12 +58,10 @@ class TodoList extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({ todos: state });
+const mapActionsToProps = {
+  agregar: (text) => addTodo(text),
+  listo: (index) => toggleTodo(index)
+}
 
-export default connect(
-  (state) => { 
-    return { todos: state }
-  },
-  { 
-    addText: (text) => addTodo(text)
-  }
-)(TodoList);
+export default connect(mapStateToProps, mapActionsToProps)(TodoList);

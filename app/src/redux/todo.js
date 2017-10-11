@@ -26,12 +26,13 @@ export const upTodo = (index) => ({
 export const todoReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
+      //return state.push({text: action.text, completed: false, value: 0});
       return state.concat([{ text: action.text, completed: false, value: 0}])
     case CANCEL_TODO:
       return state.slice(0, action.index).concat(state.slice(action.index+1))
     case TOGGLE_TODO:
       return state.map((x, index) => (
-        index === action.index ? Object.assign({x, completed: true}) : x
+        index === action.index ? Object.assign({}, x, {completed: true}) : x
       ));
     case UP_TODO:
       return state.map((x,index) => (
